@@ -10,6 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Drustii" >
         <activity
+            android:name=".account.verifyAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".account.createAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".account.signUpActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".splashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
@@ -17,18 +35,13 @@
             android:theme="@style/Theme.Drustii.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
-            android:name=".loginActivity"
+            android:name=".account.loginActivity"
             android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
-
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
