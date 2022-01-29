@@ -14,4 +14,13 @@ public class validateInput {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
+    
+    // validate password
+    public static final Pattern VALID_PASSWORD_REGEX=
+            Pattern.compile("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}");
+    
+    public boolean validatePassword(String passStr){
+        Matcher matchpass=VALID_PASSWORD_REGEX.matcher(passStr);
+        return matchpass.find();
+    }
 }

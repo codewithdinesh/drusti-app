@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.drustii" >
-
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Drustii" >
+
         <activity
             android:name=".account.verifyAccountActivity"
             android:exported="false" />
@@ -20,12 +21,10 @@
             android:exported="true" />
         <activity
             android:name=".account.signUpActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true"
+            android:launchMode="singleTask"
+          >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".splashActivity"
@@ -41,7 +40,9 @@
         </activity>
         <activity
             android:name=".account.loginActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTask"
+            />
 
         <meta-data
             android:name="preloaded_fonts"

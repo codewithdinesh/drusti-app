@@ -12,15 +12,16 @@ import com.drustii.R;
 import com.drustii.utility.validateEmail;
 
 public class signUpActivity extends AppCompatActivity {
-com.google.android.material.textfield.TextInputEditText userEmail;
-Button signUpBtn,loginBtn;
+    com.google.android.material.textfield.TextInputEditText userEmail;
+    Button signUpBtn, loginBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        userEmail=findViewById(R.id.userEmail);
-        signUpBtn=findViewById(R.id.signUpBtn);
-        loginBtn=findViewById(R.id.loginBtn);
+        userEmail = findViewById(R.id.userEmail);
+        signUpBtn = findViewById(R.id.signUpBtn);
+        loginBtn = findViewById(R.id.loginBtn);
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,23 +30,19 @@ Button signUpBtn,loginBtn;
                 validateEmail obj = new validateEmail();
 
                 if (obj.validate(EmailInput) == true) {
-
+                    //send OTP api request
                     // GO to the OTP verification Page here
                     // pass user Email To next Page..
+
                     Toast.makeText(signUpActivity.this, "OTP send successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(signUpActivity.this,verifyAccountActivity.class);
-                    intent.putExtra("userEmail",EmailInput);
+                    Intent intent = new Intent(signUpActivity.this, verifyAccountActivity.class);
+                    intent.putExtra("userEmail", EmailInput);
                     startActivity(intent);
 
                 } else {
-
                     // Display an error msg
 
                 }
-//                Intent intent=new Intent(signUpActivity.this, createAccountActivity.class);
-//                startActivity(intent);
-//                Snackbar.make(signUpActivity.this,"This is UserEmail:" + userEmail, Snackbar.LENGTH_SHORT);
-//                Toast.makeText(signUpActivity.this, "This is UserEmail"+EmailInput, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -54,9 +51,12 @@ Button signUpBtn,loginBtn;
             @Override
             public void onClick(View v) {
                 //GO to Login page
-                Intent i=new Intent(signUpActivity.this,loginActivity.class);
+                Intent i = new Intent(signUpActivity.this, loginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(i);
+
             }
         });
+
     }
 }
