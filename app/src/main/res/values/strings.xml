@@ -14,4 +14,18 @@
     <string name="title_activity_splash">splashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="close_btn">close Btn</string>
+    <string name="world_map">World Map - Connect World with Social Networks.</string>
+    <string name="signup">SignUp</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="otp_send_successfully_on_email">OTP send Successfully on EMail</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="account">Account</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="drustii">DRUSTII</string>
+
 </resources>

@@ -6,26 +6,38 @@
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/app_bg.xml" value="0.14375" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/card_1_bg.xml" value="0.14375" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/card_2_bg.xml" value="0.14375" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/card_3_bg.xml" value="0.1" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_connected_world.xml" value="0.17395833333333333" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_favorite.xml" value="0.1" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_feeling_happy.xml" value="0.13046875" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_home.xml" value="0.1" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.15462962962962962" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_more.xml" value="0.1" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_profile.xml" value="0.19166666666666668" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/drawable/ic_splash_screen.xml" value="0.14375" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.16015625" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout-w1240dp/toast.xml" value="0.1" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout-w936dp/activity_login.xml" value="0.131640625" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_create_account.xml" value="0.131640625" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
-        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_main.xml" value="0.2690992018244014" />
-        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_sign_up.xml" value="0.14666666666666667" />
-        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_splash.xml" value="0.22" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_sign_up.xml" value="0.16666666666666666" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_splash.xml" value="0.16666666666666666" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_verify_account.xml" value="0.22" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/activity_verify_user.xml" value="0.22" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/fragment_explore.xml" value="0.22" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/fragment_favorite.xml" value="0.12109375" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/fragment_login.xml" value="0.14666666666666667" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/fragment_profile.xml" value="0.131640625" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/layout.xml" value="0.1" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/search_view_layout.xml" value="0.13201754385964912" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/search_view_suggestion_row.xml" value="0.13201754385964912" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/toast.xml" value="0.1" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/layout/toolbar_search_view.xml" value="0.13201754385964912" />
         <entry key="..\:/Final Project/drustii/client/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.22" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/menu/search_menu.xml" value="0.13201754385964912" />
+        <entry key="..\:/Final Project/drustii/client/app/src/main/res/menu/top_appbar_menu_home.xml" value="0.1" />
       </map>
     </option>
   </component>

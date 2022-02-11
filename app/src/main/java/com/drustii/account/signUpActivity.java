@@ -29,19 +29,20 @@ public class signUpActivity extends AppCompatActivity {
                 String EmailInput = userEmail.getText().toString().trim().toLowerCase();
                 validateEmail obj = new validateEmail();
 
+
                 if (obj.validate(EmailInput) == true) {
                     //send OTP api request
                     // GO to the OTP verification Page here
                     // pass user Email To next Page..
 
                     Toast.makeText(signUpActivity.this, "OTP send successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(signUpActivity.this, verifyAccountActivity.class);
-                    intent.putExtra("userEmail", EmailInput);
-                    startActivity(intent);
+                    Intent intent2 = new Intent(signUpActivity.this, verifyAccountActivity.class);
+                    intent2.putExtra("userEmail", EmailInput);
+                    startActivity(intent2);
 
                 } else {
                     // Display an error msg
-
+                    Toast.makeText(signUpActivity.this, "Invalid Email", Toast.LENGTH_SHORT).show();
                 }
 
             }

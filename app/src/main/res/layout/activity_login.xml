@@ -1,127 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".account.loginActivity"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_feeling_happy"
-        android:layout_gravity="center"
-        android:weightSum="3"
-
-        />
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:paddingBottom="20dp"
-        android:weightSum="3"
-        android:background="@drawable/card_1_bg"
-        >
+        tools:context=".account.loginActivity"
+        android:orientation="vertical">
 
-
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/aclonica"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="LOGIN"
-            android:textColor="#277DE6"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            app:autoSizeTextType="uniform" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:background="@color/design_default_color_on_primary"
-            android:hint="Email"
-            app:hintTextColor="@color/black"
-            android:layout_margin="5dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#202020"
-                android:textCursorDrawable="@color/black"
-                android:id="@+id/userEmail"
-                android:cursorVisible="true"
-
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/design_default_color_on_primary"
-            android:hint="password"
-            app:hintTextColor="@color/black"
-            app:endIconMode="password_toggle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/userPassword"
-                android:inputType="textPassword"
-                android:textCursorDrawable="@color/black"
-                android:cursorVisible="true"
-                android:textColor="#202020" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/loginBtn"
+        <ImageButton
+            android:id="@+id/closeActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="Login"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:backgroundTint="#FF8F00"
-            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:contentDescription="@string/close_btn"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_close_tab" />
 
-      />
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
+            android:src="@drawable/ic_feeling_happy"
+            android:layout_gravity="center"
+            android:weightSum="3"
+            />
+
+        <LinearLayout
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/card_1_bg"
+            >
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="Dont having a account?"
-                android:textColor="#ED5252"/>
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/aclonica"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="LOGIN"
+                android:textColor="#277DE6"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:autoSizeTextType="uniform" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filledTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="Email"
+                app:hintTextColor="@color/black"
+                android:layout_margin="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#202020"
+                    android:id="@+id/userEmail"
+                    android:singleLine="true"
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@xml/cursor"
+
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filledTextField2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="password"
+                app:hintTextColor="@color/black"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userPassword"
+                    android:inputType="textPassword"
+                    android:textColor="#202020"
+                    android:singleLine="true"
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@xml/cursor"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/signUpBtn"
+                android:id="@+id/loginBtn"
+                style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SignUp"
-                android:textColor="#0f0ff1"
+                android:layout_gravity="center"
+                android:backgroundTint="#FF8F00"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:padding="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Login"
+                android:textColor="@color/black"
                 tools:ignore="TouchTargetSizeCheck" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Dont having a account?"
+                    android:textColor="#ED5252"/>
+
+                <Button
+                    android:id="@+id/signUpBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SignUp"
+                    android:textColor="#0f0ff1"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
+
+
     </LinearLayout>
-
-
-</LinearLayout>
+</ScrollView>

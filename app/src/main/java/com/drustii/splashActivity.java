@@ -3,8 +3,10 @@ package com.drustii;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.drustii.account.loginActivity;
 
@@ -17,14 +19,20 @@ public class splashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //This method will be executed once the timer is over
-                // Start your app main activity
-                Intent i = new Intent(splashActivity.this, MainActivity.class);
-                startActivity(i);
-                // close this activity
-                finish();
+                SharedPreferences getShared=getSharedPreferences("userDetails",MODE_PRIVATE);
+                String name=getShared.getString("auth_Key","");
+                if(name.trim().isEmpty()){
+                    Intent i = new Intent(splashActivity.this, loginActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(splashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+
+                }
             }
-        }, 3000);
+        }, 1000);
     }
 
 }
