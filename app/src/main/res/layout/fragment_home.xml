@@ -4,18 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:layout_marginBottom="?attr/actionBarSize">
 
-
-    <TextView
-
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="@font/berkshire_swash"
-        android:gravity="center"
-        android:text="Home"
-        android:textSize="40sp"
-        android:textStyle="italic|bold" />
+        android:padding="5dp"
+        >
+
+    <!--Video Recycler View Will be here-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/demoOutput"
+            />
+    </ScrollView>
+
 
 </LinearLayout>

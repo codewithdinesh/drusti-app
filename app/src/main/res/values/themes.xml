@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Drustii" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Drustii" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color.#5A5067 -->
 
         <item name="colorPrimary">#F8F8F8</item>
@@ -17,6 +17,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:navigationBarColor" tools:targetApi="l" >?attr/colorPrimary</item>
+
+
     </style>
 
     <style name="Theme.Drustii.Fullscreen" parent="Theme.Drustii">
@@ -29,6 +31,7 @@
         <item name="fullscreenBackgroundColor">?attr/colorPrimary</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
 
 
 </resources>

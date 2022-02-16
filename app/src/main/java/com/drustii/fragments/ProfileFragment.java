@@ -49,10 +49,9 @@ String authId;
             LoginMessage();
 
         }else{
-            SuccessLogin();
-
+//            SuccessLogin();
+            LoginMessage();
         }
-
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +68,6 @@ String authId;
     public void onStart() {
         super.onStart();
 
-        Toast.makeText(getActivity(), "hey you", Toast.LENGTH_SHORT).show();
         if(authId.trim().isEmpty()){
             LoginMessage();
         }else{

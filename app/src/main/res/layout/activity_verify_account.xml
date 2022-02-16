@@ -60,6 +60,29 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/showError"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#C62828"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="@drawable/card_3_bg"
+        android:visibility="gone"
+        />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/progressBar"
+        android:indeterminate="true"
+        app:indicatorColor="#4554BD"
+        android:visibility="gone"
+        />
+
     <Button
         android:id="@+id/verifyOTP"
         android:layout_width="wrap_content"

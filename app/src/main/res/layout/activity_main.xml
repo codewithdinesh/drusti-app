@@ -19,8 +19,9 @@
                 android:id="@+id/my_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:menu="@menu/search_menu">
+                app:menu="@menu/top_appbar_menu_home"
+                android:background="?attr/colorPrimary">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -28,7 +29,6 @@
                     android:textSize="26sp"
                     android:letterSpacing="0.2"
                     android:textStyle="bold"
-
                     />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -42,13 +42,13 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
-            style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
             app:itemIconTint="@color/black"
             app:itemTextColor="@color/black"
             app:menu="@menu/bottom_navigation_menu" />
+
     </FrameLayout>
 
 

@@ -9,6 +9,11 @@
         style="@style/ModalBottomSheetDialog"
         android:orientation="vertical">
 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/top_bar"
+        layout="@layout/top_toolbar"/>
 
     <FrameLayout
         android:layout_width="match_parent"

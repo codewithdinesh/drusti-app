@@ -1,5 +1,7 @@
 package com.drustii;
 
+import static com.google.android.material.navigation.NavigationBarView.LABEL_VISIBILITY_LABELED;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,10 +11,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.drustii.*;
 import com.drustii.account.loginActivity;
@@ -21,9 +33,19 @@ import com.drustii.fragments.FavoriteFragment;
 import com.drustii.fragments.HomeFragment;
 import com.drustii.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    TextView DemoOutput;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -35,19 +57,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         bottomNavigationView=findViewById(R.id.bottom_navigation);
+        DemoOutput=findViewById(R.id.demoOutput);
         HomeFragment homeFragment=new HomeFragment();
         ExploreFragment exploreFragment=new ExploreFragment();
         FavoriteFragment favoriteFragment=new FavoriteFragment();
         ProfileFragment profileFragment=new ProfileFragment();
 
         //Identifying User Logged Or Not
-        SharedPreferences getShared=getSharedPreferences("demo",MODE_PRIVATE);
-        String name=getShared.getString("name","This is an NOte");
-        Toast.makeText(this, "Hello "+name, Toast.LENGTH_SHORT).show();
+        SharedPreferences getShared=getSharedPreferences("userDetails",MODE_PRIVATE);
+        String name=getShared.getString("clientIp",null);
+        Toast.makeText(this, "IP: "+name, Toast.LENGTH_SHORT).show();
+
+        bottomNavigationView.setLabelVisibilityMode(LABEL_VISIBILITY_LABELED);
+        bottomNavigationView.setItemPaddingBottom(5);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
+                    // FIlled ICON
+
                     getSupportFragmentManager().beginTransaction().replace(R.id.FragmentContainer,homeFragment).commit();
                     return true;
 
@@ -68,10 +96,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.home);
 
 
-
     }
 
     public void setSupportActionBar(Toolbar myToolbar) {
     }
+
+
 
 }

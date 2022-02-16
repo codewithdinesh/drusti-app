@@ -19,31 +19,60 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.drustii.R;
+import com.drustii.utility.userAnalytics;
+import com.drustii.utility.validateInput;
 import com.drustii.widget.OtpView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+
 public class verifyAccountActivity extends AppCompatActivity {
-com.drustii.widget.OtpView OtpInput;
-Button otpVerifyBtn;
-String userEmail;
-Intent intent;
+    com.drustii.widget.OtpView OtpInput;
+    Button otpVerifyBtn;
+    String userEmail;
+    Intent intent;
+    com.google.android.material.textview.MaterialTextView showError;
+    com.google.android.material.progressindicator.CircularProgressIndicator progressBar;
+    validateInput validateInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_account);
-        OtpInput=findViewById(R.id.otpInput);
-        otpVerifyBtn=findViewById(R.id.verifyOTP);
-        intent=getIntent();
-        userEmail=intent.getStringExtra("userEmail");
+        OtpInput = findViewById(R.id.otpInput);
+        otpVerifyBtn = findViewById(R.id.verifyOTP);
+        intent = getIntent();
+        userEmail = intent.getStringExtra("userEmail");
+        showError = findViewById(R.id.showError);
+        progressBar = findViewById(R.id.progressBar);
+        validateInput = new validateInput();
+
 
         OtpInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     verifyOtp(OtpInput);
                     InputMethodManager inputMethodManager = (InputMethodManager)
                             getSystemService(INPUT_METHOD_SERVICE);
@@ -63,32 +92,103 @@ Intent intent;
         });
 
     }
-    public void verifyOtp(OtpView Otp){
-        String userInputOtp=Otp.getText().toString();
 
-        // Layout Inflater
-        LayoutInflater li = getLayoutInflater();
+    public void verifyOtp(OtpView Otp) {
+        progressBar.setVisibility(View.GONE);
 
-        //layout view
-        View layout=li.inflate(R.layout.toast,(ViewGroup) findViewById(R.id.toast_layout_root));
+        String userInputOtp = Otp.getText().toString();
 
-        //TextView Of custom Toast : toast.xml
-        TextView myMsg=layout.findViewById(R.id.text);
-        myMsg.setText(userInputOtp);
+        if (validateInput.validateOTP(userInputOtp)) {
 
-        //Setup Custom Toast
-        Toast myCustomToast=new Toast(getApplicationContext());
-        myCustomToast.setDuration(LENGTH_LONG);
-        myCustomToast.setView(layout);
-        myCustomToast.setGravity(0,0,50);
-        myCustomToast.show();
+            showError.setVisibility(View.GONE);
 
-        // if success account create then store user details
-        SharedPreferences sharedPreferences = getSharedPreferences("userDetails",MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        myEdit.putString("email",userEmail );
-        myEdit.putString("auth_Key",userEmail );
-        myEdit.apply();
+            displayProgressBar();
+            RegistrationOtpVerify(userEmail, userInputOtp);
+
+        } else {
+            displayError("Invalid OTP, Please Enter 6 digit Otp", 8000);
+            progressBar.setVisibility(View.GONE);
+        }
 
     }
+
+    //Verify Registration OTP
+    private void RegistrationOtpVerify(String userEmail, String userOTP) {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        // BASE URL
+        String url = "http://192.168.50.54:5001/user/verification";
+
+        // pass Headers
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("email", userEmail);
+        params.put("otp", userOTP);
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    int status = response.getInt("status");
+                    String msg = response.getString("message");
+                    Toast.makeText(verifyAccountActivity.this, status + msg, Toast.LENGTH_SHORT).show();
+
+                    // if success account create then store user details
+                    SharedPreferences sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
+                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                    myEdit.putString("email", userEmail);
+                    myEdit.putString("auth_Key", userEmail);
+                    myEdit.apply();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(verifyAccountActivity.this, "Something Went Wrong..", Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof NoConnectionError) {
+                    displayError("No Internet, Please try again..", 150000);
+                }
+                if (error instanceof TimeoutError) {
+                    displayError("Server Down, Please try again..", 150000);
+                } else if (error instanceof AuthFailureError) {
+
+                    displayError("Incorrect OTP, Please try again..", 150000);
+
+                } else if (error instanceof ServerError) {
+
+                    displayError("Server Error, Please try again..", 150000);
+
+                } else if (error instanceof NetworkError) {
+                    displayError("Network Issue, Please try again..", 150000);
+
+                } else if (error instanceof ParseError) {
+                    displayError("Parse Error", 150000);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+
+        });
+        // Add the request to the RequestQueue.
+        queue.add(jsonRequest);
+    }
+
+    public void displayError(String msg, int time) {
+        showError.setVisibility(View.GONE);
+        showError.setText(msg);
+        showError.setVisibility(View.VISIBLE);
+        showError.postDelayed(new Runnable() {
+            public void run() {
+                showError.setVisibility(View.GONE);
+            }
+        }, time);
+    }
+
+    public void displayProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
 }

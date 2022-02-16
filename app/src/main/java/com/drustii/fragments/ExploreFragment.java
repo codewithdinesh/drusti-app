@@ -7,12 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.drustii.R;
+import com.google.android.material.appbar.MaterialToolbar;
 
 
 public class ExploreFragment extends Fragment {
-
+MaterialToolbar mtoolbar;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -22,6 +22,8 @@ public class ExploreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false);
+        View view=inflater.inflate(R.layout.fragment_explore, container, false);
+
+        return view;
     }
 }

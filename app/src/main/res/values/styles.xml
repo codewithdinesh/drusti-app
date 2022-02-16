@@ -1,6 +1,7 @@
 <resources>
     <style name="Widget.Theme.Drustii.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+
     </style>
 
     <style name="Widget.Theme.Drustii.ButtonBar.Fullscreen" parent="">
@@ -15,6 +16,7 @@
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
+
     <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
         @style/CustomShapeAppearanceBottomSheetDialog
     </style>
@@ -26,4 +28,6 @@
     <style name="AppTheme" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
+
+
 </resources>

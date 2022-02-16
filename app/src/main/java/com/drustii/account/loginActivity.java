@@ -34,6 +34,8 @@ public class loginActivity extends AppCompatActivity {
 ImageButton closeActivity;
     com.google.android.material.textfield.TextInputEditText userEmail,userPassword;
     Button signUpBtn,loginBtn;
+    Intent intent2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ ImageButton closeActivity;
         signUpBtn=findViewById(R.id.signUpBtn);
         loginBtn=findViewById(R.id.loginBtn);
         closeActivity=findViewById(R.id.closeActivity);
+
 
         //skip or close login Activity
         closeActivity.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +79,6 @@ ImageButton closeActivity;
 
                 validateInput validateInput=new validateInput();
 
-
                 if( validateInput.validateEmail(userInputEmail)){
 
                     if(validateInput.validatePassword(userInputPassword)){
@@ -102,21 +104,22 @@ ImageButton closeActivity;
 
     }
 
+
     //Login API POST request
     private void loginReq(String userInputPassword, String userInputEmail) {
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
         // BASE URL
-        String url ="http://192.168.215.54:5001/login/creator";
+        String url ="http://192.168.50.54:5001/videos";
 
         //POst Objects
-        HashMap<String,String> params=new HashMap<String,String>();
-        params.put("content-Type", "application/json; charset=utf-8");
-        params.put("email",userInputEmail);
-        params.put("password","pass");
+        // HashMap<String,String> params=new HashMap<String,String>();
+        // params.put("content-Type", "application/json; charset=utf-8");
+        // params.put("email",userInputEmail);
+        // params.put("password","pass");
 
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url,null,
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url,null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -138,22 +141,7 @@ ImageButton closeActivity;
                 Log.i("Volley Error ", "Volley Error:" + error.toString());
                 Toast.makeText(getApplicationContext(), "On Error Response "+error, Toast.LENGTH_LONG).show();
             }
-        })
-        {
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Override
-            protected Map<String,String> getParams() throws AuthFailureError {
-                Map<String,String> params=new HashMap<>();
-                params.put("Content-Type", "application/json");
-                params.put("email",userInputEmail);
-                params.put("password",userInputPassword);
-                return  params;
-            }
-        };
+        });
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);

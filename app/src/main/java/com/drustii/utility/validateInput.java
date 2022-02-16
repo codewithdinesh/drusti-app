@@ -23,4 +23,13 @@ public class validateInput {
         Matcher matchpass=VALID_PASSWORD_REGEX.matcher(passStr);
         return matchpass.find();
     }
+
+    //validate OTP
+    String regex = "\\d{6}";
+    Pattern VALID_OTP_REGEX= Pattern.compile(regex);
+
+    public boolean validateOTP(String otp){
+        Matcher mObj=VALID_OTP_REGEX.matcher(otp);
+        return mObj.find();
+    }
 }

@@ -2,7 +2,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 <!-- Base application theme. -->
-<style name="Theme.Drustii" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+<style name="Theme.Drustii" parent="Theme.Material3.DayNight.NoActionBar">
     <!-- Primary brand color.#5A5067 -->
 
     <item name="colorPrimary">#9FA8DA</item>
