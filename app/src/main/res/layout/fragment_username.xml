@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".account.create.usernameFragment">
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/aclonica"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="choose your username"
+            android:textColor="#277DE6"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform" />
+        <!-- User Unique ID --><!--Username-->
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/design_default_color_on_primary"
+            android:hint="create username"
+            android:textColor="@color/black"
+            app:hintTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#202020"
+                android:textCursorDrawable="@xml/cursor"
+                app:textInputLayoutFocusedRectEnabled="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/doneBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#FF8F00"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Done" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/worning_bg">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:textColor="#FB6D72"
+                android:layout_marginBottom="5dp"
+                android:text="Username should be unique"
+                android:textSize="13dp"
+                android:padding="5dp"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FB6D72"
+                android:textSize="13dp"
+                android:layout_marginBottom="5dp"
+                android:text="Username can contains letters(a-z) , numbers(0-9) , dot(.) and underscore() _ "
+                android:padding="5dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FB6D72"
+                android:textSize="13dp"
+                android:text="Username should not start with number or . or _"
+                android:padding="5dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FB6D72"
+                android:textSize="13dp"
+                android:layout_marginBottom="5dp"
+                android:text="Username can not end with dot(.) or underscore(_)"
+                android:padding="5dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FB6D72"
+                android:textSize="12dp"
+                android:layout_marginBottom="5dp"
+                android:text="Username should be less than 27 character"
+                android:padding="5dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

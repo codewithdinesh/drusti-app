@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         bottomNavigationView=findViewById(R.id.bottom_navigation);
-        DemoOutput=findViewById(R.id.demoOutput);
+
         HomeFragment homeFragment=new HomeFragment();
         ExploreFragment exploreFragment=new ExploreFragment();
         FavoriteFragment favoriteFragment=new FavoriteFragment();
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Identifying User Logged Or Not
         SharedPreferences getShared=getSharedPreferences("userDetails",MODE_PRIVATE);
-        String name=getShared.getString("clientIp",null);
-        Toast.makeText(this, "IP: "+name, Toast.LENGTH_SHORT).show();
+        String name=getShared.getString("uA",null);
+        // Toast.makeText(this, "IP: "+name, Toast.LENGTH_SHORT).show();
 
         bottomNavigationView.setLabelVisibilityMode(LABEL_VISIBILITY_LABELED);
         bottomNavigationView.setItemPaddingBottom(5);

@@ -5,10 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +12,20 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.drustii.MainActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.drustii.R;
-import com.drustii.account.LoginFragment;
+import com.drustii.account.LoginRequiredFragment;
+import com.drustii.account.dashboard.dashboardFragment;
 import com.drustii.account.loginActivity;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class ProfileFragment extends Fragment {
 
-FrameLayout profileContainer;
-Button loginBtn;
-String authId;
+    FrameLayout profileContainer;
+    Button loginBtn;
+    String authId;
+    SharedPreferences getUserDetails;
 
 
     public ProfileFragment() {
@@ -38,27 +36,16 @@ String authId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        profileContainer = view.findViewById(R.id.profileContainer);
+        getUserDetails = this.getActivity().getSharedPreferences("userDetails", MODE_PRIVATE);
+        authId = getUserDetails.getString("login_token", "");
 
-        loginBtn=view.findViewById(R.id.loginBtn);
-        loginBtn.setVisibility(View.VISIBLE);
-        SharedPreferences getUserDetails=this.getActivity().getSharedPreferences("userDetails",MODE_PRIVATE);
-        authId=getUserDetails.getString("auth_Key","");
-
-        
-        if(authId.trim().isEmpty()){
+        if (authId.trim().isEmpty()) {
             LoginMessage();
 
-        }else{
-//            SuccessLogin();
-            LoginMessage();
+        } else {
+            SuccessLogin();
         }
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginMessage();
-            }
-        });
 
         return view;
     }
@@ -67,10 +54,13 @@ String authId;
     @Override
     public void onStart() {
         super.onStart();
+        LoginRequiredFragment loginRequiredFragment = new LoginRequiredFragment("Login to Access Profile");
+        if (authId.trim().isEmpty()) {
 
-        if(authId.trim().isEmpty()){
-            LoginMessage();
-        }else{
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.profileContainer, loginRequiredFragment);
+            fragmentTransaction.commit();
+        } else {
             SuccessLogin();
         }
 
@@ -85,9 +75,18 @@ String authId;
     }
 
     //if logged successfully
-    public void SuccessLogin(){
-        loginBtn.setVisibility(View.INVISIBLE);
+    public void SuccessLogin() {
+        // check user is valid or not
+        String userID = getUserDetails.getString("userID", "");
+
+        dashboardFragment dashboardFragment = new dashboardFragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.profileContainer, dashboardFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
+
+
 
 }

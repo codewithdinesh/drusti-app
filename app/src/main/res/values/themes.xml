@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Drustii" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary brand color.#5A5067 -->
 
+        <!-- Primary brand color.#5A5067 -->
         <item name="colorPrimary">#F8F8F8</item>
         <item name="colorPrimaryVariant">#B3B1B1</item>
         <item name="colorOnPrimary">@color/black</item>
@@ -10,28 +10,40 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#FF039BE5</item>
         <item name="colorSecondaryVariant">#8A8A8A</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">#0B0B0B</item>
 
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:navigationBarColor" tools:targetApi="l" >?attr/colorPrimary</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorPrimary</item>
 
+        <!-- Calender Style -->
+        <item name="colorControlHighlight">#638EBF</item>
+        <item name="android:textColorPrimaryInverse">#EF6C00</item>
 
     </style>
+
 
     <style name="Theme.Drustii.Fullscreen" parent="Theme.Drustii">
         <item name="android:actionBarStyle">@style/Widget.Theme.Drustii.ActionBar.Fullscreen</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
+
+    </style>
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="CornerImageView" parent="">
+        <item name="cornerSize">08dp</item>
     </style>
 
     <style name="ThemeOverlay.Drustii.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">?attr/colorPrimary</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
-
 
 
 </resources>

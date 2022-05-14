@@ -16,9 +16,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="close_btn">close Btn</string>
     <string name="world_map">World Map - Connect World with Social Networks.</string>
-    <string name="signup">SignUp</string>
     <string name="email">Email</string>
-    <string name="login">Login</string>
     <string name="otp_send_successfully_on_email">OTP send Successfully on EMail</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="settings">Settings</string>
@@ -30,5 +28,13 @@
     <string name="explore">Explore</string>
     <string name="already_having_a_account">Already having a account?</string>
     <string name="invalid_Email">Invalid Email</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="dont_having_a_account">Dont having a account?</string>
+    <string name="signup">SignUp</string>
+    <string name="create_password">Create Password</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="user_image">user image</string>
+    <string name="videocover">VideoCover</string>
 
 </resources>

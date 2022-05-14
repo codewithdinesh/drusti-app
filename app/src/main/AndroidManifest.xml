@@ -4,6 +4,7 @@
     package="com.drustii">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.HIDE_OVERLAY_WINDOWS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -16,6 +17,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
         <activity
+            android:name=".creator.CreatorPublicProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".videos.videoActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
+
+            android:exported="false" />
+        <activity
             android:name=".account.VerifyUserActivity"
             android:exported="false" />
         <activity
@@ -23,19 +32,21 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".account.createAccountActivity"
+            android:name=".account.create.createAccountActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".account.signUpActivity"
             android:exported="true"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".splashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Drustii.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

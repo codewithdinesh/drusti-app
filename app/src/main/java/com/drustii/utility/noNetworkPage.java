@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.drustii.R;
+import com.drustii.utility.network.checkInternet;
 import com.google.android.material.button.MaterialButton;
 
 public class noNetworkPage {
@@ -97,15 +98,13 @@ public class noNetworkPage {
                 }
             });
 
-            //check show or hide no network page
-
             //add image to page
             page.addView(noNetworkImg);
             page.addView(errorMsg);
             page.addView(refreshBtn);
 
         } catch (Exception exception) {
-            Toast.makeText(context, exception.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"something went wrong..", Toast.LENGTH_LONG).show();
         }
 
         //Set View

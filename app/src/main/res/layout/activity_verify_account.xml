@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="match_parent"
     tools:context=".account.VerifyUserActivity"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/card_1_bg"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
     >
 
 
@@ -83,16 +85,37 @@
         android:visibility="gone"
         />
 
-    <Button
-        android:id="@+id/verifyOTP"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/verify_otp"
-        android:layout_margin="25sp"
-        android:minHeight="48sp"
-        android:background="@drawable/card_1_bg"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
 
-        />
+        <Button
+            android:id="@+id/resendOtpBtn"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Resend OTP"
+            android:layout_margin="25sp"
+            android:minHeight="48sp"
+            android:background="@drawable/card_1_bg"
+      />
+
+        <Button
+            android:id="@+id/verifyOTP"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/verify_otp"
+            android:layout_margin="25sp"
+            android:minHeight="48sp"
+            android:background="@drawable/card_1_bg"
+
+            />
+    </LinearLayout>
+
 
 
 </LinearLayout>

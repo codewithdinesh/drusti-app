@@ -4,4 +4,9 @@
         <attr name="fullscreenTextColor" format="color" />
 
     </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="trimLength" format="integer" />
+    </declare-styleable>
+
 </resources>

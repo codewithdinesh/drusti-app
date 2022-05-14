@@ -1,22 +1,14 @@
 package com.drustii.account;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.net.ConnectivityManager;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -28,29 +20,18 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.drustii.R;
-import com.drustii.utility.checkInternet;
-import com.drustii.utility.noNetworkPage;
-import com.drustii.utility.userAnalytics;
-import com.drustii.utility.validateEmail;
-import com.google.android.material.button.MaterialButton;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.drustii.config.config;
+import com.drustii.utility.network.checkInternet;
+import com.drustii.utility.network.noNetworkFragment;
+import com.drustii.utility.validateInput;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.format.Formatter;
-
 import java.util.HashMap;
-import java.util.Map;
 
 public class signUpActivity extends AppCompatActivity {
     com.google.android.material.textfield.TextInputEditText userEmail;
@@ -77,10 +58,10 @@ public class signUpActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String EmailInput = userEmail.getText().toString().trim().toLowerCase();
-                validateEmail obj = new validateEmail();
+                validateInput obj = new validateInput();
 
 
-                if (obj.validate(EmailInput)) {
+                if (obj.validateEmail(EmailInput)) {
                     showError.setVisibility(View.GONE);
                     displayProgressBar();
 
@@ -90,7 +71,8 @@ public class signUpActivity extends AppCompatActivity {
                     RegistrationotpRequest(EmailInput);
                 } else {
                     // Display an error msg
-                    displayError("Invalid Email", 5000);
+                    displayError("Invalid Email, Please Try Again with valid EMail", "OK");
+
                 }
 
             }
@@ -119,7 +101,7 @@ public class signUpActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         // BASE URL
-        String url = "http://192.168.50.54:5001/user/register";
+        String url = new config().getBASE_URL() +"/user/verification";
 
         //Check server is active or not
         cInternet.noNetwork(getApplicationContext(),signUpContainer,signUpActivity.this);
@@ -149,7 +131,9 @@ public class signUpActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
-                    displayError("something went wrong, Please try again..", 150000);
+                    e.printStackTrace();
+                    Toast.makeText(signUpActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    displayError("something went wrong, Please try again..", "Try again");
                     progressBar.setVisibility(View.GONE);
 
                 }
@@ -158,25 +142,26 @@ public class signUpActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(signUpActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 
                 if (error instanceof NoConnectionError) {
-                    displayError("No Internet, Please try again..", 150000);
+                    displayError("No Internet, Please try again..", "Refresh");
                 }
                 if (error instanceof TimeoutError) {
-                    displayError("Server Down, Please try again..", 150000);
+                    displayError("Server Down, Please try again..", "Try again");
                 } else if (error instanceof AuthFailureError) {
 
-                    displayError("AuthFailure, Please try again..", 150000);
+                    displayError("AuthFailure, Please try again..", "Try agian");
 
                 } else if (error instanceof ServerError) {
 
-                    displayError("Server Error, Please try again..", 150000);
+                    displayError("Server Error, Please try again..", "Try again");
 
                 } else if (error instanceof NetworkError) {
-                    displayError("Network Issue, Please try again..", 150000);
+                    displayError("Network Issue, Please try again..", "Try again");
 
                 } else if (error instanceof ParseError) {
-                    displayError("Parse Error", 150000);
+                    displayError("Parse Error", "close");
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -186,22 +171,15 @@ public class signUpActivity extends AppCompatActivity {
         queue.add(jsonRequest);
     }
 
-    public void displayError(String msg, int time) {
-        showError.setText(msg);
-        showError.setVisibility(View.VISIBLE);
-        showError.postDelayed(new Runnable() {
-            public void run() {
-                showError.setVisibility(View.GONE);
-            }
-        }, time);
+    public void displayError(String msg, String BtnMsg) {
+        noNetworkFragment networkFragment = new noNetworkFragment(msg, BtnMsg);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        networkFragment.show(fragmentManager, "fragment_no_network");
     }
 
     public void displayProgressBar() {
         progressBar.setVisibility(View.VISIBLE);
     }
-
-
-
 
 
 }

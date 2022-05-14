@@ -1,23 +1,16 @@
 package com.drustii.account;
 
-import static android.widget.Toast.LENGTH_LONG;
-import static com.drustii.R.xml.*;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -32,18 +25,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.drustii.R;
-import com.drustii.utility.userAnalytics;
+import com.drustii.account.create.createAccountActivity;
+import com.drustii.config.config;
 import com.drustii.utility.validateInput;
 import com.drustii.widget.OtpView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -116,7 +104,7 @@ public class verifyAccountActivity extends AppCompatActivity {
     private void RegistrationOtpVerify(String userEmail, String userOTP) {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         // BASE URL
-        String url = "http://192.168.50.54:5001/user/verification";
+        String url = new config().getBASE_URL() + "/user/verify";
 
         // pass Headers
         HashMap<String, String> params = new HashMap<String, String>();
@@ -129,14 +117,16 @@ public class verifyAccountActivity extends AppCompatActivity {
                 try {
                     int status = response.getInt("status");
                     String msg = response.getString("message");
-                    Toast.makeText(verifyAccountActivity.this, status + msg, Toast.LENGTH_SHORT).show();
+                    String email = response.getString("email");
+                    Toast.makeText(verifyAccountActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-                    // if success account create then store user details
-                    SharedPreferences sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
-                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
-                    myEdit.putString("email", userEmail);
-                    myEdit.putString("auth_Key", userEmail);
-                    myEdit.apply();
+                    // Open Account setup Activity
+                    Intent intent = new Intent(verifyAccountActivity.this, createAccountActivity.class);
+                    // pass email
+                    intent.putExtra("userEmail", email);
+                    // pass UNIQUE key that are generated when otp is verified
+                    startActivity(intent);
+                    finish();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -176,6 +166,7 @@ public class verifyAccountActivity extends AppCompatActivity {
         queue.add(jsonRequest);
     }
 
+    // Display Error is should be Dialog Window
     public void displayError(String msg, int time) {
         showError.setVisibility(View.GONE);
         showError.setText(msg);

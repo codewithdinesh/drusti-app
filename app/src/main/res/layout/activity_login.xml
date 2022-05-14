@@ -3,16 +3,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:padding="5dp"
-    >
+    android:layout_height="match_parent"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".account.loginActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".account.loginActivity">
 
         <ImageButton
             android:id="@+id/closeActivity"
@@ -25,21 +24,18 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_feeling_happy"
             android:layout_gravity="center"
-            android:weightSum="3"
-            />
+            android:src="@drawable/ic_feeling_happy" />
 
         <LinearLayout
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/card_1_bg"
             android:orientation="vertical"
             android:padding="10dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/card_1_bg"
-            >
+            android:paddingBottom="20dp">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked"
@@ -59,22 +55,20 @@
                 android:id="@+id/filledTextField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:background="@color/design_default_color_on_primary"
                 android:hint="Email"
+                android:textColor="@color/black"
                 app:hintTextColor="@color/black"
-                android:layout_margin="5dp">
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#202020"
-                    android:id="@+id/userEmail"
-                    android:singleLine="true"
                     android:cursorVisible="true"
-                    android:textCursorDrawable="@xml/cursor"
-
-                    />
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,26 +76,24 @@
                 android:id="@+id/filledTextField2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:background="@color/design_default_color_on_primary"
-                android:hint="password"
-                app:hintTextColor="@color/black"
-                app:endIconMode="password_toggle">
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
+                app:hintTextColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/userPassword"
-                    android:inputType="textPassword"
-                    android:textColor="#202020"
-                    android:singleLine="true"
                     android:cursorVisible="true"
-                    android:textCursorDrawable="@xml/cursor"
-                    />
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginBtn"
                 style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="wrap_content"
@@ -113,7 +105,7 @@
                 android:padding="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="@color/black"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -127,21 +119,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:text="Dont having a account?"
-                    android:textColor="#ED5252"/>
+                    android:text="@string/dont_having_a_account"
+                    android:textColor="#ED5252" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/signUpBtn"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SignUp"
+                    android:elevation="2dp"
+                    android:minHeight="48dp"
+                    android:text="@string/signup"
                     android:textColor="#0f0ff1"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    app:rippleColor="@color/blue" />
 
             </LinearLayout>
 
         </LinearLayout>
-
 
 
     </LinearLayout>

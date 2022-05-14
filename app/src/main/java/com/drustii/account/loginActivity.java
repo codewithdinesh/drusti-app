@@ -1,16 +1,14 @@
 package com.drustii.account;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,7 +19,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.drustii.MainActivity;
 import com.drustii.R;
-import com.drustii.splashActivity;
+import com.drustii.config.config;
+import com.drustii.utility.network.noNetworkFragment;
 import com.drustii.utility.validateInput;
 
 import org.json.JSONException;
@@ -31,21 +30,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class loginActivity extends AppCompatActivity {
-ImageButton closeActivity;
-    com.google.android.material.textfield.TextInputEditText userEmail,userPassword;
-    Button signUpBtn,loginBtn;
+    ImageButton closeActivity;
+    com.google.android.material.textfield.TextInputEditText userEmail, userPassword;
+    com.google.android.material.button.MaterialButton signUpBtn, loginBtn;
     Intent intent2;
+    SharedPreferences getShared;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userEmail=findViewById(R.id.userEmail);
-        userPassword=findViewById(R.id.userPassword);
-        signUpBtn=findViewById(R.id.signUpBtn);
-        loginBtn=findViewById(R.id.loginBtn);
-        closeActivity=findViewById(R.id.closeActivity);
+        userEmail = findViewById(R.id.userEmail);
+        userPassword = findViewById(R.id.userPassword);
+        signUpBtn = findViewById(R.id.signUpBtn);
+        loginBtn = findViewById(R.id.loginBtn);
+        closeActivity = findViewById(R.id.closeActivity);
+        getShared = getSharedPreferences("userDetails", MODE_PRIVATE);
 
 
         //skip or close login Activity
@@ -54,14 +55,9 @@ ImageButton closeActivity;
             public void onClick(View v) {
                 Intent i = new Intent(loginActivity.this, MainActivity.class);
                 startActivity(i);
-                finish();            }
+                finish();
+            }
         });
-        SharedPreferences sharedPreferences = getSharedPreferences("demo",MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-
-        myEdit.putString("name", "Dinesh");
-        myEdit.putString("tokenID", "Acbdhh121");
-        myEdit.apply();
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,33 +67,31 @@ ImageButton closeActivity;
                 startActivity(intent);
             }
         });
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userInputEmail=userEmail.getText().toString().trim();
-                String userInputPassword=userPassword.getText().toString().trim();
+                String userInputEmail = userEmail.getText().toString().trim();
+                String userInputPassword = userPassword.getText().toString().trim();
 
-                validateInput validateInput=new validateInput();
+                validateInput validateInput = new validateInput();
 
-                if( validateInput.validateEmail(userInputEmail)){
 
-                    if(validateInput.validatePassword(userInputPassword)){
+                if (validateInput.validateEmail(userInputEmail)) {
+                    if (!userInputEmail.isEmpty()) {
 
                         // Login Request
                         // if request success then go to Main activity
                         // and store login credential
-                        loginReq(userInputEmail,userInputPassword);
-                        Intent intent=new Intent(loginActivity.this, MainActivity.class);
-                        startActivity(intent);
-
-                    }else{
-                        //password format incorrect error msg
-                        Toast.makeText(loginActivity.this, "Password Format Invalid", Toast.LENGTH_SHORT).show();
-
+                        loginReq(userInputEmail, userInputPassword);
+                    } else {
+                        displayError("Please Enter Password", "Error");
                     }
-                }else{
+
+
+                } else {
                     //Email Incorrect error msg
-                    Toast.makeText(loginActivity.this, "Invalid Email", Toast.LENGTH_SHORT).show();
+                    displayError("Invalid Email, Please Try Again with valid EMail", "Ok");
                 }
             }
         });
@@ -106,44 +100,64 @@ ImageButton closeActivity;
 
 
     //Login API POST request
-    private void loginReq(String userInputPassword, String userInputEmail) {
+    private void loginReq(String userInputEmail, String userInputPassword) {
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
         // BASE URL
-        String url ="http://192.168.50.54:5001/videos";
+        String url = new config().getBASE_URL() + "/login/user";
 
         //POst Objects
-        // HashMap<String,String> params=new HashMap<String,String>();
+        HashMap<String, String> params = new HashMap<String, String>();
         // params.put("content-Type", "application/json; charset=utf-8");
-        // params.put("email",userInputEmail);
-        // params.put("password","pass");
+        params.put("email", userInputEmail);
+        params.put("password", userInputPassword);
 
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url,null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Log.i("Reposn:","Response:: "+response);
-                            String login_token=response.getString("login_token");
-                            Log.i("Response:",login_token);
-                            Log.d("REs",response.toString());
-                            Toast.makeText(loginActivity.this, "Token:  "+ login_token, Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(loginActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String token = response.getString("login_token");
+                    String email = response.getString("email");
+                    String userID = response.getString("userId");
+                    Toast.makeText(loginActivity.this, "Logged successfully", Toast.LENGTH_SHORT).show();
 
+                    // if success account created then store user details
+                    SharedPreferences sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
+                    SharedPreferences.Editor mStore = sharedPreferences.edit();
+                    mStore.putString("login_token", token);
+                    mStore.putString("userEmail", email);
+                    mStore.putString("userID", userID);
+                    mStore.apply();
+                    Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                    startActivity(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    displayError("Something went wrong", "Error");
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("Volley Error ", "Volley Error:" + error.toString());
-                Toast.makeText(getApplicationContext(), "On Error Response "+error, Toast.LENGTH_LONG).show();
+                displayError("Something went wrong", "Error");
             }
-        });
-
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                String uAID = getShared.getString("uA", null);
+                params.put("user_ip", uAID);
+                return params;
+            }
+        };
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(loginRequest);
+    }
+
+    public void displayError(String msg, String BtnMsg) {
+        noNetworkFragment networkFragment = new noNetworkFragment(msg, BtnMsg);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        networkFragment.show(fragmentManager, "fragment_no_network");
     }
 }

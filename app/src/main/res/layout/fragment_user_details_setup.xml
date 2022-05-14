@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".account.create.userDetailsSetupFragment">
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/card_1_bg"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:paddingBottom="20dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/aclonica"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Setup Account Details"
+            android:textColor="#277DE6"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform" />
+
+        <!-- Get USer Image , Avatar -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/userImageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="150dp"
+
+            >
+
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_profile">
+
+            </ImageView>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--Name of User-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/design_default_color_on_primary"
+            android:hint="Name"
+            android:textColor="@color/black"
+            app:hintTextColor="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:textColor="#202020"
+                android:textCursorDrawable="@xml/cursor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Date of Birth-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@color/design_default_color_on_primary"
+            android:hint="Select Date of Birth"
+            app:hintTextColor="@color/black">
+
+            <!-- Date Picker here-->
+            <EditText
+                android:id="@+id/userDOB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:textColor="@color/blue"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Select Gender -->
+        <!-- when click on EditText view should open Dialog og Choose Gender like Date Picker -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/genderPickerlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/design_default_color_on_primary"
+            android:hint="Select Gender"
+            android:textColor="@color/black"
+            app:hintTextColor="@color/black"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:editable="false"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:textColor="@color/blue" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/nextBtn"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="#FF8F00"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="NEXT"
+            android:textColor="#283593"
+            tools:ignore="TextContrastCheck" />
+
+    </LinearLayout>
+
+</FrameLayout>
