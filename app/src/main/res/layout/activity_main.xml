@@ -1,7 +1,5 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -22,14 +20,22 @@
                 app:menu="@menu/top_appbar_menu_home"
                 android:background="?attr/colorPrimary">
 
+                <ImageView
+                    android:id="@+id/videoUpload"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginRight="5dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_video_upload" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/drustii"
                     android:textSize="26sp"
                     android:letterSpacing="0.2"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -45,8 +51,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
-            app:itemIconTint="@color/black"
-            app:itemTextColor="@color/black"
+            android:background="?attr/colorPrimary"
+            app:itemIconTint="?attr/colorOnPrimary"
+            app:itemTextColor="?attr/colorOnPrimary"
             app:menu="@menu/bottom_navigation_menu" />
 
     </FrameLayout>

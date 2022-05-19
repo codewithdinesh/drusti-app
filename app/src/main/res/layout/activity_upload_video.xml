@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".videos.UploadVideoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#C5CAE9"
+            android:padding="10dp"
+            android:text="Upload Video"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:textStyle="bold"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <!-- video source-->
+            <Button
+                android:id="@+id/selectVideo"
+                style="@style/Widget.Material3.ExtendedFloatingActionButton.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:letterSpacing="0.16"
+                android:text="Choose Video" />
+
+            <LinearLayout
+                android:id="@+id/videoContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <VideoView
+                    android:id="@+id/videoView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#6BE8EAF6"
+                    android:keepScreenOn="true" />
+            </LinearLayout>
+
+            <!-- video title -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="Video Title"
+                android:textColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/videoTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- video Description -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="Video Description"
+                android:textColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/videoDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- video Category -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="Video Category"
+                android:textColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/videoCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- video Privacy -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="Video Privacy"
+                android:textColor="@color/black"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/videoPrivacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="true"
+                    android:editable="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- video share to - when share only selected -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/videoShareToLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/design_default_color_on_primary"
+                android:hint="ShareVideoTo (add emails- separated by comma(,)"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:hintTextColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/videoShareTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:singleLine="true"
+                    android:textColor="#202020"
+                    android:textCursorDrawable="@xml/cursor" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/uploadVideo"
+                style="@style/Widget.Material3.ExtendedFloatingActionButton.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+
+                android:text="Upload Video" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

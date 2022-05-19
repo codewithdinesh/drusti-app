@@ -3,10 +3,10 @@ package com.drustii.videos;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +34,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         TextView creatorName, videoTitle, videoViews, videoLikes, videoPosted;
         ShapeableImageView videoCover, creatorAvatar;
         LinearLayout videoContainer, creatorContainer;
+        ImageView shareVideo;
         View view;
 
         public VideoViewHolder(@NonNull View itemView) {
@@ -47,6 +48,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoViews = itemView.findViewById(R.id.videoViews);
             videoPosted = itemView.findViewById(R.id.videoPosted);
             creatorContainer = itemView.findViewById(R.id.creatorContainer);
+            shareVideo = itemView.findViewById(R.id.shareVideo);
             view = itemView;
         }
     }
@@ -97,6 +99,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             }
         });
 
+
         // open creator dashboard
         holder.creatorContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +109,24 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 Intent i = new Intent(context.getApplicationContext(), CreatorPublicProfileActivity.class);
                 i.putExtra("creatorUsername", videos.get(position).getCreatorName());
                 activity.startActivity(i);
+            }
+        });
+
+        //share video
+        holder.shareVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+
+                String vURL = "watch " + videos.get(position).getTitle() + " - at drustii \n" + " https://drustii.in/video?id=" + videos.get(position).getId();
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, vURL);
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                activity.startActivity(shareIntent);
             }
         });
 

@@ -8,8 +8,8 @@
         <item name="colorOnPrimary">@color/black</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#FF039BE5</item>
-        <item name="colorSecondaryVariant">#8A8A8A</item>
+        <item name="colorSecondary">#1E88E5</item>
+        <item name="colorSecondaryVariant">#3949AB</item>
         <item name="colorOnSecondary">#0B0B0B</item>
 
 
@@ -43,6 +43,10 @@
     <style name="ThemeOverlay.Drustii.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">?attr/colorPrimary</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#12457E</item>
     </style>
 
 

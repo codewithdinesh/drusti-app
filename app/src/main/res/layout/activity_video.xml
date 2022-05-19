@@ -8,13 +8,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
         android:orientation="vertical">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/msgContainer"
+            android:id="@+id/errContainer"
             android:layout_margin="10dp"
             android:elevation="5dp"
             android:visibility="gone"
@@ -27,9 +27,7 @@
                 android:layout_height="wrap_content"
                 android:background="#57D6D6D6"
                 android:padding="15dp"
-                android:textColor="#FF8F00"
-
-                />
+                android:textColor="#FF8F00" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -38,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <com.google.android.exoplayer2.ui.StyledPlayerView
@@ -61,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:singleLine="true"
-                android:text="Video Title"
+                android:text="Loading.."
                 android:textSize="18sp" />
 
 
@@ -92,6 +91,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_border_heart" />
 
                     <TextView
@@ -101,7 +101,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:padding="10dp"
-                        android:text="Video Likes"
+                        android:text="..."
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -112,11 +112,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:minWidth="50dp"
                     android:padding="10dp"
-                    android:text="Video Views"
+
                     android:textAlignment="center"
                     android:textSize="15dp" />
 
@@ -126,11 +126,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:minWidth="50dp"
                     android:padding="10dp"
-                    android:text="Video posted"
                     android:textSize="15dp"
                     tools:ignore="RtlCompat" />
 
@@ -148,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:singleLine="false"
-                android:text="Video Description"
+
                 android:textSize="15sp"
                 tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
@@ -187,7 +186,7 @@
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        android:text="Creator Name"
+                        android:text="Loading..."
                         android:textSize="18sp" />
 
                 </LinearLayout>

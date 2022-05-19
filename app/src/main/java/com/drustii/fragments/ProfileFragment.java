@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +27,7 @@ public class ProfileFragment extends Fragment {
     Button loginBtn;
     String authId;
     SharedPreferences getUserDetails;
+    TextView showError;
 
 
     public ProfileFragment() {
@@ -43,10 +45,7 @@ public class ProfileFragment extends Fragment {
         if (authId.trim().isEmpty()) {
             LoginMessage();
 
-        } else {
-            SuccessLogin();
         }
-
         return view;
     }
 
@@ -78,7 +77,6 @@ public class ProfileFragment extends Fragment {
     public void SuccessLogin() {
         // check user is valid or not
         String userID = getUserDetails.getString("userID", "");
-
         dashboardFragment dashboardFragment = new dashboardFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.profileContainer, dashboardFragment);
@@ -87,6 +85,23 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    public void displayError(String msg, int time) {
+        showError.setVisibility(View.GONE);
+        showError.setText(msg);
+        showError.setVisibility(View.VISIBLE);
+        showError.postDelayed(new Runnable() {
+            public void run() {
+                showError.setVisibility(View.GONE);
+            }
+        }, time);
+    }
+
+    public void LogOut() {
+        getUserDetails = getActivity().getSharedPreferences("userDetails", MODE_PRIVATE);
+        SharedPreferences.Editor mStore = getUserDetails.edit();
+        mStore.putString("login_token", "");
+        mStore.apply();
+    }
 
 
 }

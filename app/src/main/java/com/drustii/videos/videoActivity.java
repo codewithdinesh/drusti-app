@@ -1,33 +1,43 @@
 package com.drustii.videos;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.drustii.MainActivity;
 import com.drustii.R;
 import com.drustii.config.config;
 import com.drustii.creator.CreatorPublicProfileActivity;
+import com.drustii.utility.network.checkInternet;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -43,9 +53,9 @@ import java.util.Map;
 
 public class videoActivity extends AppCompatActivity {
     Intent video;
-    String videoID, creatorID, creatorUserName;
+    String videoID = "", creatorID, creatorUserName;
     LinearLayout videoContainer, creatorContainer;
-    TextView creatorName, videoTitle, videoViews, videoLikes, videoPosted, videoDescription;
+    TextView creatorName, videoTitle, videoViews, videoLikes, videoPosted, videoDescription, showError;
     ShapeableImageView creatorAvatar;
     com.google.android.exoplayer2.ui.StyledPlayerView videoPlayerView;
     com.google.android.exoplayer2.SimpleExoPlayer videoPlayer;
@@ -53,9 +63,11 @@ public class videoActivity extends AppCompatActivity {
     RecyclerView recommendVideos;
     List<VideoModel> videoModelList;
     SharedPreferences getUserDetails;
+    CardView errContainer;
+    ArrayList<String> uniqueVideos;
     String authId;
-
-    int tes = 0;
+    int videoLikedCount, uplike;
+    checkInternet checkInternet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +75,23 @@ public class videoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video);
         video = getIntent();
         videoID = video.getStringExtra("videoID");
+
+        if (Intent.ACTION_VIEW.equals(video.getAction())) {
+            Uri uri = video.getData();
+            try {
+                String vID = uri.getQueryParameter("id");
+                // Log.i("VID : ", vID);
+                videoID = vID;
+            } catch (Exception e) {
+                Intent i = new Intent(videoActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+
+        }
+
+
         videoModelList = new ArrayList<VideoModel>();
+
         videoPlayerView = findViewById(R.id.videoPlayer);
         creatorName = findViewById(R.id.creatorName);
         videoTitle = findViewById(R.id.videoTitle);
@@ -75,12 +103,31 @@ public class videoActivity extends AppCompatActivity {
         videoLikeBtn = findViewById(R.id.videoLikeBtn);
         creatorContainer = findViewById(R.id.creatorContainer);
         recommendVideos = findViewById(R.id.recommendVideos);
+        errContainer = findViewById(R.id.errContainer);
+        showError = findViewById(R.id.showError);
+        videoContainer = findViewById(R.id.videoContainer);
 
-        fetchVideo(videoID);
+
+        uniqueVideos = new ArrayList<>();
+        checkInternet = new checkInternet();
+
+
+        if (!videoID.trim().isEmpty()) {
+            if (checkInternet.isNetworkAvailable(getApplicationContext())) {
+                fetchVideo(videoID);
+            } else {
+                displayError("No internet, Please Connect Internet", 100000);
+            }
+
+        } else {
+            displayError("video Not Found", 10000);
+        }
+
 
         getUserDetails = this.getSharedPreferences("userDetails", MODE_PRIVATE);
 
         authId = getUserDetails.getString("login_token", "");
+        // Toast.makeText(this, "l="+authId, Toast.LENGTH_SHORT).show();
 
         videoLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,16 +136,12 @@ public class videoActivity extends AppCompatActivity {
                 // check here video is liked or not then as per show the like btn
                 // compare video id in user liked video here
 
-                likeVideo(videoID);
-                if (tes == 0) {
-                    // get true of false for liked video or not
-                    videoLikeBtn.setImageResource(R.drawable.ic_heart);
-                    tes = 1;
+                if (!authId.isEmpty()) {
+                    likeVideo(videoID);
                 } else {
-                    // get true of false for liked video or not
-                    videoLikeBtn.setImageResource(R.drawable.ic_border_heart);
-                    tes = 0;
+                    displayError("Login to Like video", 20000);
                 }
+
             }
         });
 
@@ -106,6 +149,7 @@ public class videoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(videoActivity.this, CreatorPublicProfileActivity.class);
+
                 i.putExtra("creatorUsername", creatorUserName);
                 startActivity(i);
             }
@@ -126,6 +170,13 @@ public class videoActivity extends AppCompatActivity {
 
     private void fetchVideo(String id) {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        ProgressDialog progressDialog = new ProgressDialog(videoActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMessage("wait while video is fetching...");
+        progressDialog.show();
+
+
 
         // BASE URL
         String url = new config().getBASE_URL() + "/video?id=" + id;
@@ -133,9 +184,24 @@ public class videoActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject video) {
-                String s_videoTitle, s_videoDesc, s_videoCategory, s_videoID, s_videoCover, s_videoViews, s_videoSource, s_videoLikes, s_videoCreator, s_videoUploadedOn, s_videoCreatorUsername, s_CreatorAvatar;
-                try {
+                progressDialog.hide();
+                progressDialog.dismiss();
 
+                String s_videoTitle;
+                String s_videoDesc;
+                String s_videoCategory;
+                String s_videoID;
+                String s_videoCover;
+                String s_videoViews;
+                String s_videoSource;
+                String s_videoLikes;
+                String s_videoCreator;
+                String s_videoUploadedOn;
+                String s_videoCreatorUsername;
+                String s_CreatorAvatar;
+                videoContainer.setVisibility(View.VISIBLE);
+
+                try {
                     s_videoID = video.getString("videoID");
                     s_videoTitle = video.getString("videoTitle");
                     s_videoDesc = video.getString("videoDescription");
@@ -149,6 +215,9 @@ public class videoActivity extends AppCompatActivity {
                     s_videoCreatorUsername = video.getString("userName");
 
                     s_videoCategory = video.getString("videoCategory");
+
+                    videoLikedCount = video.getInt("videoLikes");
+                    uplike = videoLikedCount;
 
                     videoTitle.setText(s_videoTitle);
                     videoDescription.setText(s_videoDesc);
@@ -179,17 +248,82 @@ public class videoActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+                    progressDialog.hide();
+                    progressDialog.dismiss();
+                    displayError("something went wrong..please try again.", 20000);
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                int statusCode = 0;
+                progressDialog.hide();
+                progressDialog.dismiss();
 
-                error.printStackTrace();
+                if (error.networkResponse != null) {
+                    statusCode = error.networkResponse.statusCode;
+                }
+
+
+                switch (statusCode) {
+                    case 404:
+                        displayMsg("video not found");
+                        videoNotFound();
+                        break;
+
+                    case 403:
+                        displayMsg("You don't have a permission to access this video");
+                        videoNotFound();
+                        break;
+
+                    case 405:
+                        displayMsg("video Not found");
+                        videoNotFound();
+                        break;
+
+                    case 401:
+                        displayMsg("please login to access the video");
+                        break;
+
+                    default:
+                        displayMsg("Something went wrong, Please try again later..");
+                        break;
+
+                }
+
+                if (error instanceof NoConnectionError) {
+                    displayError("No Internet, Please try again..", 150000);
+                }
+                if (error instanceof TimeoutError) {
+                    displayError("Server Down, Please try again..", 150000);
+                    videoNotFound();
+                } else if (error instanceof AuthFailureError) {
+
+                    displayError("You Do not have a permission to access this video", 150000);
+
+                } else if (error instanceof ServerError) {
+
+                    displayError("sever error, please try again..", 150000);
+                    videoNotFound();
+
+                } else if (error instanceof NetworkError) {
+                    displayError("Network Issue, Please try again..", 150000);
+
+                } else if (error instanceof ParseError) {
+                    displayError("Parse Error", 150000);
+                }
 
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", authId);
+                params.put("User-Agent", "Mozilla/5.0");
+                return params;
+            }
+        };
 
 
         // Add the request to the RequestQueue.
@@ -199,6 +333,7 @@ public class videoActivity extends AppCompatActivity {
 
     // get all same categories videos
     public void recommendVideos(String categories, String creator_ID) {
+
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
@@ -215,19 +350,18 @@ public class videoActivity extends AppCompatActivity {
 
                         String videoId = video.getString("videoId");
 
-//                        Log.d("Videos:  ", String.valueOf(videoModelList));
-                        // Log.d("videoId : ", videoId);
-//                        if (!videoModelList.contains(videoId)) {
-//                        }
-
                         if (!videoId.equals(videoID)) {
-                            fetchVideoRecommended(videoId);
-                        }
 
+                            if (!uniqueVideos.contains(videoId)) {
+                                fetchVideoRecommended(videoId);
+                            }
+                        }
+                        uniqueVideos.add(videoId);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+                        displayMsg("Videos Not Found");
+                        // Toast.makeText(getApplicationContext(), "Videos Not Found", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -236,11 +370,11 @@ public class videoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
                 error.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Videos Not Found, Please try again later " + error.toString(), Toast.LENGTH_SHORT).show();
+                displayMsg("Videos Not Found, Please try again later ");
+                //Toast.makeText(getApplicationContext(), "Videos Not Found, Please try again later " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(jsonArrayRequest);
-
     }
 
 
@@ -279,7 +413,7 @@ public class videoActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -292,57 +426,111 @@ public class videoActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-
     // like video when like btn clicked
     private void likeVideo(String id) {
+
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         // BASE URL
         String url = new config().getBASE_URL() + "/video/like?id=" + id;
 
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject video) {
+
                 try {
+
+                    //Toast.makeText(videoActivity.this, "" + video, Toast.LENGTH_SHORT).show();
                     int statusCode = video.getInt("status");
                     if (statusCode == 200) {
-                        Toast.makeText(videoActivity.this, "Video Liked", Toast.LENGTH_SHORT).show();
+                        videoLikeBtn.setImageResource(R.drawable.ic_heart);
+                        uplike = uplike + 1;
+                        videoLikes.setText(uplike + " Likes");
                     }
+
                     if (statusCode == 201) {
-                        Toast.makeText(videoActivity.this, "Video UnLiked", Toast.LENGTH_SHORT).show();
+                        videoLikeBtn.setImageResource(R.drawable.ic_border_heart);
+                        uplike = uplike - 1;
+
+                        videoLikes.setText(uplike + " Likes");
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    displayMsg("Something went wrong During liking the video, Please try again.");
                 }
+
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 error.printStackTrace();
-
+                displayMsg("Something went wrong During liking the video, Please try again..");
             }
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("login_token", authId);
+                params.put("token", authId);
                 params.put("User-Agent", "Mozilla/5.0");
                 return params;
             }
-
         };
-
         queue.add(jsonObjectRequest);
+    }
+
+
+    private void usersLikedVideo(String loginToken) {
+
+    }
+
+    public void displayError(String msg, int time) {
+        showError.setVisibility(View.GONE);
+        errContainer.setVisibility(View.VISIBLE);
+        showError.setText(msg);
+        showError.setVisibility(View.VISIBLE);
+        showError.postDelayed(new Runnable() {
+            public void run() {
+                showError.setVisibility(View.GONE);
+                errContainer.setVisibility(View.GONE);
+            }
+        }, time);
     }
 
 
     @Override
     protected void onStop() {
         super.onStop();
-        videoPlayer.pause();
+        try {
+            videoPlayer.pause();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void displayMsg(String msg) {
+        showError.setText(msg);
+        showError.setVisibility(View.VISIBLE);
+        errContainer.setVisibility(View.VISIBLE);
+    }
+
+    public void videoNotFound() {
+        int TIME_OUT = 5000;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(videoActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        }, TIME_OUT);
+    }
+
+    @Override
+    protected void onNightModeChanged(int mode) {
+        super.onNightModeChanged(mode);
     }
 }
+

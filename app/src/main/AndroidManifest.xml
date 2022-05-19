@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.HIDE_OVERLAY_WINDOWS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,13 +18,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
         <activity
+            android:name=".videos.UploadVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TermsAndCondition"
+            android:exported="false" />
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="uiMode"
+            android:exported="false" />
+        <activity
             android:name=".creator.CreatorPublicProfileActivity"
             android:exported="false" />
         <activity
             android:name=".videos.videoActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
-
-            android:exported="false" />
+            android:exported="true"
+            >
+        </activity>
         <activity
             android:name=".account.VerifyUserActivity"
             android:exported="false" />
@@ -36,23 +51,34 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".account.signUpActivity"
-            android:exported="true"
             android:launchMode="singleTask" />
         <activity
             android:name=".splashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Drustii.Fullscreen">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="drustii.in" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".account.loginActivity"

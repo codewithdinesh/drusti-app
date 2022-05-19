@@ -30,7 +30,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Login"
-        android:textColor="@color/white" />
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="LOGIN"
+        style="@style/Widget.Material3.FloatingActionButton.Large.Primary"
+        android:backgroundTint="#C3C9F4"
+        android:letterSpacing="0.19"
+        android:textColor="#7986CB"
+        android:textStyle="bold" />
 
 </LinearLayout>

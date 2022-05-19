@@ -14,7 +14,7 @@ import com.drustii.utility.analytics.userAnalytics;
 
 public class checkInternet {
 
-    //@Check internet is avalable or not
+    //@Check internet is available or not
     public boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if (connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected()) {

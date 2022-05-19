@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.drustii.LikedVideoFragment;
 import com.drustii.R;
 import com.drustii.account.LoginRequiredFragment;
 import com.drustii.account.loginActivity;
@@ -37,9 +38,6 @@ public class FavoriteFragment extends Fragment {
 
         if (authId.trim().isEmpty()) {
             LoginMessage();
-
-        } else {
-            SuccessLogin();
         }
 
         return view;
@@ -78,7 +76,13 @@ public class FavoriteFragment extends Fragment {
 //        fragmentTransaction.replace(R.id.profileContainer, dashboardFragment);
 //        fragmentTransaction.addToBackStack(null);
 //        fragmentTransaction.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "Favorite Videos and Creator will be shown here", Toast.LENGTH_SHORT).show();
+
+        LikedVideoFragment likedVideoFragment = new LikedVideoFragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.profileContainer, likedVideoFragment);
+        fragmentTransaction.commit();
+
+        //  Toast.makeText(getActivity().getApplicationContext(), "Favorite Videos and Creator will be shown here", Toast.LENGTH_SHORT).show();
 
     }
 }

@@ -1,24 +1,35 @@
 package com.drustii.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.drustii.R;
 import com.drustii.config.config;
+import com.drustii.utility.network.checkInternet;
 import com.drustii.videos.VideoAdapter;
 import com.drustii.videos.VideoModel;
 
@@ -33,11 +44,19 @@ public class HomeFragment extends Fragment {
     RecyclerView videosContainer;
     VideoAdapter videoAdapter;
     List<VideoModel> videoModelList;
-    String videoCreatorUrl = "https://drustii.s3.ap-south-1.amazonaws.com/avatar/46155578-1029-4903-afda-237d65dd351b.jpg";
-    String creatorName = "Dinesh Rathod";
+    checkInternet checkInternet;
+    TextView showError;
+    ProgressBar progressBar;
+    CardView errContainer;
 
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -46,30 +65,49 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         videosContainer = view.findViewById(R.id.videosContainer);
-
         videoModelList = new ArrayList<VideoModel>();
-        VideosFetch();
+        showError = view.findViewById(R.id.showError);
+        errContainer = view.findViewById(R.id.errContainer);
+        progressBar = view.findViewById(R.id.progressBar);
+
+        checkInternet = new checkInternet();
+
         return view;
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (checkInternet.isNetworkAvailable(getActivity().getApplicationContext())) {
+            VideosFetch();
+        } else {
+            displayError("No internet, Please Connect Internet", 100000);
+        }
+    }
+
     private void VideosFetch() {
 
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        progressBar.setVisibility(View.VISIBLE);
+
         // BASE URL
         String url = new config().getBASE_URL() + "/videos";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+
+                progressBar.setVisibility(View.GONE);
                 String videoTitle, videoDesc, videoID, videoCover, videoViews, videoSource, videoLikes, videoCreator, videoUploadedOn;
 
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject video = response.getJSONObject(i);
                         //check it multiple it time if its not works properly then make new request for particular video
-                        // videoID = video.getString("videoId");
-                        fetchVideo(video.getString("videoId"));
+                        videoID = video.getString("videoId");
+                        fetchVideo(videoID);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -80,21 +118,40 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressBar.setVisibility(View.GONE);
+                if (error instanceof NoConnectionError) {
+                    displayError("No Internet, Please try again..", 3000000);
+                }
 
-                error.printStackTrace();
-                Toast.makeText(getActivity().getApplicationContext(), "Videos Not Found, Please try again later " + error.toString(), Toast.LENGTH_SHORT).show();
+                if (error instanceof TimeoutError) {
+                    displayError("Server Down, Please try again..", 3000000);
+                } else if (error instanceof AuthFailureError) {
+
+                    displayError("Authentication Error, Please try again later.. or please log Out then Return Login", 3000000);
+
+                } else if (error instanceof ServerError) {
+
+                    displayError("Server Error, Please try again..", 3000000);
+
+                } else if (error instanceof NetworkError) {
+                    displayError("Network Issue, Please try again..", 3000000);
+
+                } else if (error instanceof ParseError) {
+                    displayError("Parse Error", 3000000);
+                }
             }
         });
-
-
         // Add the request to the RequestQueue.
         queue.add(jsonArrayRequest);
     }
 
+
+
     private void fetchVideo(String id) {
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+
         // BASE URL
-        String url = new config().getBASE_URL() + "/video?id=" + id+ "&vc=false";
+        String url = new config().getBASE_URL() + "/video?id=" + id + "&vc=false";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -123,13 +180,14 @@ public class HomeFragment extends Fragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity().getApplicationContext(), "Error" + e.toString(), Toast.LENGTH_SHORT).show();
+                    displayError("something went wrong", 100000);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                displayError("something went wrong", 100000);
 
             }
         });
@@ -138,4 +196,18 @@ public class HomeFragment extends Fragment {
         queue.add(jsonObjectRequest);
     }
 
+    // Display error
+    public void displayError(String msg, int time) {
+        showError.setVisibility(View.GONE);
+        errContainer.setVisibility(View.VISIBLE);
+        showError.setText(msg);
+        showError.setVisibility(View.VISIBLE);
+        showError.postDelayed(new Runnable() {
+            public void run() {
+                showError.setVisibility(View.GONE);
+                errContainer.setVisibility(View.GONE);
+            }
+        }, time);
+
+    }
 }

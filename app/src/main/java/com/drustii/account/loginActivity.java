@@ -122,6 +122,7 @@ public class loginActivity extends AppCompatActivity {
                     String userID = response.getString("userId");
                     Toast.makeText(loginActivity.this, "Logged successfully", Toast.LENGTH_SHORT).show();
 
+
                     // if success account created then store user details
                     SharedPreferences sharedPreferences = getSharedPreferences("userDetails", MODE_PRIVATE);
                     SharedPreferences.Editor mStore = sharedPreferences.edit();
@@ -129,8 +130,10 @@ public class loginActivity extends AppCompatActivity {
                     mStore.putString("userEmail", email);
                     mStore.putString("userID", userID);
                     mStore.apply();
+
                     Intent intent = new Intent(loginActivity.this, MainActivity.class);
                     startActivity(intent);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
