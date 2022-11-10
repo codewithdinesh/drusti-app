@@ -1,6 +1,5 @@
 # drusti-app
 Drustii an video social media Application.
-# Drusti Server 
 This is a server of drusti an video social media app which is similar to the YouTube.
 
 #### Functions:
