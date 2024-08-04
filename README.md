@@ -2,6 +2,10 @@
 Drustii an video social media Application.
 This is a server of drusti an video social media app which is similar to the YouTube.
 
+
+## Backend (NodeJs)
+[Drustii Backend](https://github.com/codewithdinesh/drustii)
+
 # ScreenShots
 
 <img src="https://github.com/user-attachments/assets/8211d276-8532-48bd-8828-4b346db86aac" height="300" alt="Screenshot 1">
